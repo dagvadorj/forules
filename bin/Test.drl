@@ -1,0 +1,24 @@
+package org.ubdynamics.rulesapp.web
+
+import org.ubdynamics.rulesapp.repo.Student;
+
+global java.util.List errors;
+
+rule "Check if Dagvadorj"
+
+    when
+        student: Student(name == "Dagvadorj")
+    then
+        errors.add("You are Dagvadorj!");
+
+end
+
+rule "Check if old enough"
+
+	when 
+		student: Student(age <= 21)
+	then 
+		errors.add("You are young!");
+
+end
+

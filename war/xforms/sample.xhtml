@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xf="http://www.w3.org/2002/xforms"
+	xmlns:xxf="http://orbeon.org/oxf/xml/xforms">
+<head>
+<title>abc</title>
+
+<xf:model>
+
+	<xf:instance id="form-instance"
+		src="/JaxbServlet?className=org.ubdynamics.rulesapp.repo.Student" />
+
+	<xf:instance id="errors-instance">
+		<errors>
+			<error text="n" />
+		</errors>
+	</xf:instance>
+
+	<xf:submission id="test-submission"
+		resource="/RulesServlet?className=org.ubdynamics.rulesapp.repo.Student"
+		method="post" replace="instance" instance="errors-instance"
+		ref="instance('form-instance')">
+
+		<xf:action ev:event="xforms-submit">
+			<xf:message>1</xf:message>
+		</xf:action>
+
+		<xf:action ev:event="xforms-submit-done">
+			<xf:message>2</xf:message>
+		</xf:action>
+
+	</xf:submission>
+
+</xf:model>
+
+</head>
+<body>
+
+	<h2>Edit</h2>
+
+	<table>
+		<tr>
+			<td>Name</td>
+			<td><xf:input ref="instance('form-instance')//name" /></td>
+		</tr>
+		<tr>
+			<td>Age</td>
+			<td><xf:input ref="instance('form-instance')//age" /></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><xf:submit submission="test-submission">
+					<xf:label>Send</xf:label>
+				</xf:submit></td>
+		</tr>
+	</table>
+
+	<h2>Preview</h2>
+
+	<table>
+		<tr>
+			<td>Name</td>
+			<td><xf:output ref="instance('form-instance')//name" /></td>
+		</tr>
+		<tr>
+			<td>Age</td>
+			<td><xf:output ref="instance('form-instance')//age" /></td>
+		</tr>
+	</table>
+
+	<h2>Errors</h2>
+
+	<ul>
+		<xf:repeat nodeset="instance('errors-instance')//error">
+			<li><xf:output value="@text" /></li>
+		</xf:repeat>
+	</ul>
+
+</body>
+</html>
