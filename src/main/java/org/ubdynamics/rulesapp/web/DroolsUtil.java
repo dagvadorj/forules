@@ -1,8 +1,13 @@
 package org.ubdynamics.rulesapp.web;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -20,12 +25,12 @@ import org.drools.runtime.StatefulKnowledgeSession;
 
 public class DroolsUtil {
 
-	public static List<String> runRules(Object s) {
+	public static List<String> runRules(Object s, ServletContext servletContext) {
 
 		try {
 
 			// load up the knowledge base
-			KnowledgeBase kbase = readKnowledgeBase();
+			KnowledgeBase kbase = readKnowledgeBase(servletContext);
 
 			StatefulKnowledgeSession ksession = kbase
 					.newStatefulKnowledgeSession();
@@ -52,15 +57,26 @@ public class DroolsUtil {
 
 	}
 
-	private static KnowledgeBase readKnowledgeBase() {
+	private static KnowledgeBase readKnowledgeBase(ServletContext servletContext)
+			throws FileNotFoundException {
+
+		File file = new File(servletContext.getRealPath("changeset.xml"));
+
+		// file.
+		//
+		InputStream inputStream = new FileInputStream(
+				servletContext.getRealPath("changeset.xml"));
 
 		// load package
 		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory
 				.newKnowledgeBuilder();
-		kbuilder.add(
-				ResourceFactory
-						.newUrlResource("http://dagvadorj:abc@localhost:8082/guvnor-distribution-wars-5.4.0-20120516-jboss-as-7.0/org.drools.guvnor.Guvnor/package/defaultPackage/LATEST"),
-				ResourceType.PKG);
+
+		kbuilder.add(ResourceFactory.newInputStreamResource(inputStream),
+				ResourceType.CHANGE_SET);
+		// kbuilder.add(
+		// ResourceFactory
+		// .newUrlResource("http://dagvadorj:abc@localhost:8082/guvnor-distribution-wars-5.4.0-20120516-jboss-as-7.0/org.drools.guvnor.Guvnor/package/defaultPackage/LATEST"),
+		// ResourceType.PKG);
 
 		// create the knowledge base
 		KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();

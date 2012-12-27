@@ -65,7 +65,7 @@ public class RulesServlet extends HttpServlet {
 
 		try {
 
-			List<String> errors = DroolsUtil.runRules(s);
+			List<String> errors = DroolsUtil.runRules(s, getServletContext());
 
 			System.out.println("# of errors: " + errors);
 
