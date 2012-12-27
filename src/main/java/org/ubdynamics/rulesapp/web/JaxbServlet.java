@@ -1,14 +1,17 @@
 package org.ubdynamics.rulesapp.web;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 
 /**
  * Servlet implementation class JaxbServlet
@@ -18,21 +21,13 @@ public class JaxbServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings({ "rawtypes", "unchecked", "restriction" })
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String className = request.getParameter("className");
 
-		System.out.println("className: " + className);
-
-		Class<?> clazz;
-
-		try {
-			clazz = Class.forName(className);
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-			return;
-		}
+		Class<?> clazz = JaxbUtil.loadClass(getServletContext(), className);
 
 		Marshaller marshaller;
 
@@ -54,6 +49,8 @@ public class JaxbServlet extends HttpServlet {
 		}
 
 		try {
+			// marshaller.marshal(new JAXBElement(new QName("student"), clazz,
+			// object), response.getOutputStream());
 			marshaller.marshal(object, response.getOutputStream());
 		} catch (JAXBException e) {
 			System.out.println(e);
