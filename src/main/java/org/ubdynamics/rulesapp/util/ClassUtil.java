@@ -1,4 +1,4 @@
-package org.ubdynamics.rulesapp.web;
+package org.ubdynamics.rulesapp.util;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -7,7 +7,7 @@ import java.net.URLClassLoader;
 import javax.servlet.ServletContext;
 import javax.xml.bind.annotation.XmlRootElement;
 
-public class JaxbUtil {
+public class ClassUtil {
 
 	public static Class<?> loadClass(ServletContext servletContext,
 			String className) throws MalformedURLException {

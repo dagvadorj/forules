@@ -15,6 +15,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.IOUtils;
+import org.ubdynamics.rulesapp.util.DroolsUtil;
+import org.ubdynamics.rulesapp.util.ClassUtil;
 
 /**
  * Servlet implementation class RulesServlet
@@ -35,7 +37,7 @@ public class RulesServlet extends HttpServlet {
 
 		String input = IOUtils.toString(inputStream);
 
-		Class<?> clazz = JaxbUtil.loadClass(getServletContext(), className);
+		Class<?> clazz = ClassUtil.loadClass(getServletContext(), className);
 
 		Unmarshaller unmarshaller;
 

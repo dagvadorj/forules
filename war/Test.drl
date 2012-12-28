@@ -1,4 +1,4 @@
-package org.ubdynamics.rules.abc
+package defaultPackage
 
 import org.ubdynamics.rulesapp.repo.Student;
 

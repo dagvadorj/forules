@@ -1,27 +1,30 @@
-package org.ubdynamics.rulesapp.web;
+package org.ubdynamics.rulesapp.util;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.io.IOUtils;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
+import org.drools.command.Command;
+import org.drools.command.CommandFactory;
 import org.drools.io.ResourceFactory;
 import org.drools.logger.KnowledgeRuntimeLogger;
 import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.drools.runtime.StatelessKnowledgeSession;
 
 public class DroolsUtil {
 
@@ -40,12 +43,22 @@ public class DroolsUtil {
 
 			List<String> errors = new ArrayList<String>();
 
-			ksession.insert(s);
+			// List<Command> cmds = new ArrayList<Command>();
+			// cmds.add(CommandFactory.newSetGlobal("errors", errors));
+			// cmds.add(CommandFactory.newInsert(s));
+			//
+			// ksession.execute(CommandFactory.newBatchExecution(cmds));
+
+			// Add global errors
+
 			ksession.insert(errors);
+			ksession.insert(s);
 
 			ksession.fireAllRules();
 
 			logger.close();
+
+			System.out.println(errors);
 
 			return errors;
 
@@ -58,12 +71,8 @@ public class DroolsUtil {
 	}
 
 	private static KnowledgeBase readKnowledgeBase(ServletContext servletContext)
-			throws FileNotFoundException {
+			throws FileNotFoundException, MalformedURLException {
 
-		File file = new File(servletContext.getRealPath("changeset.xml"));
-
-		// file.
-		//
 		InputStream inputStream = new FileInputStream(
 				servletContext.getRealPath("changeset.xml"));
 
@@ -73,10 +82,13 @@ public class DroolsUtil {
 
 		kbuilder.add(ResourceFactory.newInputStreamResource(inputStream),
 				ResourceType.CHANGE_SET);
-		// kbuilder.add(
-		// ResourceFactory
-		// .newUrlResource("http://dagvadorj:abc@localhost:8082/guvnor-distribution-wars-5.4.0-20120516-jboss-as-7.0/org.drools.guvnor.Guvnor/package/defaultPackage/LATEST"),
-		// ResourceType.PKG);
+
+		System.out.println("v");
+
+		System.out.println("vo");
+
+		// kbuilder.add(ResourceFactory.newClassPathResource("Test.drl", clazz),
+		// ResourceType.DRL);
 
 		// create the knowledge base
 		KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
@@ -85,30 +97,6 @@ public class DroolsUtil {
 		kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
 
 		return kbase;
-
 	}
 
-	// private static KnowledgeBase readKnowledgeBase() throws Exception {
-	//
-	// KnowledgeBuilder kbuilder = KnowledgeBuilderFactory
-	// .newKnowledgeBuilder();
-	// kbuilder.add(ResourceFactory.newClassPathResource("Test.drl"),
-	// ResourceType.DRL);
-	//
-	// KnowledgeBuilderErrors errors = kbuilder.getErrors();
-	//
-	// System.out.println(errors);
-	//
-	// if (errors.size() > 0) {
-	// for (KnowledgeBuilderError error : errors) {
-	// System.out.println(error);
-	// }
-	// throw new IllegalArgumentException("Could not parse knowledge.");
-	// }
-	//
-	// KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
-	// kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
-	//
-	// return kbase;
-	// }
 }
