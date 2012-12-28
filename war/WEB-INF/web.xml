@@ -4,10 +4,6 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
 	<filter>
-		<filter-name>my-xforms-filter</filter-name>
-		<filter-class>org.ubdynamics.rulesapp.web.FormFilter</filter-class>
-	</filter>
-	<filter>
 		<filter-name>orbeon-xforms-filter</filter-name>
 		<filter-class>org.orbeon.oxf.servlet.OrbeonXFormsFilter</filter-class>
 		<init-param>
@@ -15,8 +11,6 @@
 			<param-value>/orbeon</param-value>
 		</init-param>
 	</filter>
-	<!-- filter-mapping> <filter-name>my-xforms-filter</filter-name> <url-pattern>/xforms/*</url-pattern> 
-		</filter-mapping -->
 	<filter-mapping>
 		<filter-name>orbeon-xforms-filter</filter-name>
 		<url-pattern>/xforms/*</url-pattern>

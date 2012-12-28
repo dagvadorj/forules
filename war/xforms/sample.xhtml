@@ -11,9 +11,11 @@
 		src="/JaxbServlet?className=org.ubdynamics.rulesapp.repo.Student" />
 
 	<xf:instance id="errors-instance">
-		<errors>
-		</errors>
+		<errors> </errors>
 	</xf:instance>
+
+	<xf:submission id="submit-submission" resource="http://www.google.com"
+		method="get" replace="all" />
 
 	<xf:submission id="test-submission"
 		resource="/RulesServlet?className=org.ubdynamics.rulesapp.repo.Student"
@@ -25,7 +27,9 @@
 		</xf:action>
 
 		<xf:action ev:event="xforms-submit-done">
-			<!-- xf:message>2</xf:message -->
+			<xf:send submission="submit-submission"
+				if="count(instance('errors-instance')/errors/*) 
+		= 0" />
 		</xf:action>
 
 	</xf:submission>
@@ -35,45 +39,57 @@
 </head>
 <body>
 
-	<h2>Edit</h2>
+	<fieldset>
 
-	<table>
-		<tr>
-			<td>Name</td>
-			<td><xf:input ref="instance('form-instance')//name" /></td>
-		</tr>
-		<tr>
-			<td>Age</td>
-			<td><xf:input ref="instance('form-instance')//age" /></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><xf:submit submission="test-submission">
-					<xf:label>Send</xf:label>
-				</xf:submit></td>
-		</tr>
-	</table>
+		<legend>Edit</legend>
 
-	<h2>Preview</h2>
+		<table>
+			<tr>
+				<td>Name</td>
+				<td><xf:input ref="instance('form-instance')//name" /></td>
+			</tr>
+			<tr>
+				<td>Age</td>
+				<td><xf:input ref="instance('form-instance')//age" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><xf:submit submission="test-submission">
+						<xf:label>Send</xf:label>
+					</xf:submit></td>
+			</tr>
+		</table>
 
-	<table>
-		<tr>
-			<td>Name</td>
-			<td><xf:output ref="instance('form-instance')//name" /></td>
-		</tr>
-		<tr>
-			<td>Age</td>
-			<td><xf:output ref="instance('form-instance')//age" /></td>
-		</tr>
-	</table>
+	</fieldset>
 
-	<h2>Errors</h2>
+	<fieldset>
 
-	<ul>
-		<xf:repeat nodeset="instance('errors-instance')//error">
-			<li><xf:output value="@text" /></li>
-		</xf:repeat>
-	</ul>
+		<legend>Preview</legend>
+
+		<table>
+			<tr>
+				<td>Name</td>
+				<td><xf:output ref="instance('form-instance')//name" /></td>
+			</tr>
+			<tr>
+				<td>Age</td>
+				<td><xf:output ref="instance('form-instance')//age" /></td>
+			</tr>
+		</table>
+
+	</fieldset>
+
+	<fieldset>
+
+		<legend>Errors</legend>
+
+		<ul>
+			<xf:repeat nodeset="instance('errors-instance')//error">
+				<li><xf:output value="@text" /></li>
+			</xf:repeat>
+		</ul>
+
+	</fieldset>
 
 </body>
 </html>

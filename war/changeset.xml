@@ -6,7 +6,7 @@
     http://anonsvn.jboss.org/repos/labs/labs/jbossrules/trunk/drools-api/src/main/resources/change-set-1.0.0.xsd">
 	<add>
 		<resource type="PKG"
-			source="http://localhost:8082/guvnor-distribution-wars-5.4.0-20120516-jboss-as-7.0/org.drools.guvnor.Guvnor/package/defaultPackage/LATEST"
+			source="http://localhost:8082/guvnor-distribution-wars-5.4.0-20120516-jboss-as-7.0/org.drools.guvnor.Guvnor/package/defaultPackage/TEST"
 			basicAuthentication="enabled" username="admin" password="admin" />
 	</add>
 </change-set>

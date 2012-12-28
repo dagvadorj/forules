@@ -43,15 +43,7 @@ public class DroolsUtil {
 
 			List<String> errors = new ArrayList<String>();
 
-			// List<Command> cmds = new ArrayList<Command>();
-			// cmds.add(CommandFactory.newSetGlobal("errors", errors));
-			// cmds.add(CommandFactory.newInsert(s));
-			//
-			// ksession.execute(CommandFactory.newBatchExecution(cmds));
-
-			// Add global errors
-
-			ksession.insert(errors);
+			ksession.setGlobal("errors", errors);
 			ksession.insert(s);
 
 			ksession.fireAllRules();
