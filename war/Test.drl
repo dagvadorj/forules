@@ -1,4 +1,4 @@
-package org.ubdynamics.rulesapp.web
+package defaultPackage
 
 import org.ubdynamics.rulesapp.repo.Student;
 
@@ -9,16 +9,25 @@ rule "Check if Dagvadorj"
     when
         student: Student(name == "Dagvadorj")
     then
-        errors.add("You are Dagvadorj!");
+        errors.add("You are Dagvadorj, too awesome!");
 
 end
 
-rule "Check if old enough"
+rule "Check if old enough" 
 
 	when 
 		student: Student(age <= 21)
 	then 
 		errors.add("You are young!");
+
+end
+
+rule "Check even age"
+
+	when 
+		student: Student(age % 2 == 0)
+	then 
+		errors.add("Age can not be even!");
 
 end
 

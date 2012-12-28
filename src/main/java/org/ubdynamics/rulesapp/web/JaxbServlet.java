@@ -1,6 +1,7 @@
 package org.ubdynamics.rulesapp.web;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+
+import org.ubdynamics.rulesapp.util.ClassUtil;
 
 /**
  * Servlet implementation class JaxbServlet
@@ -23,16 +26,9 @@ public class JaxbServlet extends HttpServlet {
 
 		String className = request.getParameter("className");
 
-		System.out.println("className: " + className);
+		System.out.println(className);
 
-		Class<?> clazz;
-
-		try {
-			clazz = Class.forName(className);
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-			return;
-		}
+		Class<?> clazz = ClassUtil.loadClass(getServletContext(), className);
 
 		Marshaller marshaller;
 
